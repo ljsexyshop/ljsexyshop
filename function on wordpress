@@ -1,0 +1,19 @@
+function getYoutubeVideoId($iframeCode) {
+
+    // Extract video url from embed code
+    return preg_replace_callback('/<iframe\s+.*?\s+src=(".*?").*?<\/iframe>/', function ($matches) {
+        // Remove quotes
+        $youtubeUrl = $matches[1];
+        $youtubeUrl = trim($youtubeUrl, '"');
+        $youtubeUrl = trim($youtubeUrl, "'");
+        // Extract id
+        preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $youtubeUrl, $videoId);
+        return $youtubeVideoId = isset($videoId[1]) ? $videoId[1] : "";
+    }, $iframeCode);
+
+}
+
+$iframeCode = '<iframe width="560" height="315" src="http://www.youtube.com/embed/0gugBiEkLwU?rel=0" frameborder="0" allowfullscreen></iframe>';
+
+// Returns youtube video id
+echo getYoutubeVideoId($iframeCode);
